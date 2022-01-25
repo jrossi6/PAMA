@@ -149,6 +149,8 @@ def main():
                                   help="content image you want to stylize")
     eval_parser.add_argument("--style", type=str, default="./style/",
                                   help="style image for stylization")
+    eval_parser.add_argument("--alpha", type=float, default=1.0,
+                                  help="style weight between 0 (no style) and 1 (full style)")
 
     args = main_parser.parse_args()
 

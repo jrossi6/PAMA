@@ -43,8 +43,9 @@ class Net(nn.Module):
         Fcs1 = self.align1(Fc, Fs)
         Fcs2 = self.align2(Fcs1, Fs)
         Fcs3 = self.align3(Fcs2, Fs)
+        FcsB = self.args.alpha * Fcs3 + (1 - self.args.alpha) * Fc
 
-        Ics3 = self.decoder(Fcs3)
+        Ics3 = self.decoder(FcsB)
 
         if self.args.training == True:
             Ics1 = self.decoder(Fcs1)
