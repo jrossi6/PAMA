@@ -4,3 +4,5 @@ Pillow
 numpy
 matplotlib
 gdown
+pandas
+opencv-python-headless
