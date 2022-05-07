@@ -40,9 +40,12 @@ class Net(nn.Module):
         feat_s = self.forward_vgg(Is)
         Fc, Fs = feat_c[3], feat_s[3]
 
-        Fcs1 = self.align1(Fc, Fs)
-        Fcs2 = self.align2(Fcs1, Fs)
-        Fcs3 = self.align3(Fcs2, Fs)
+        Fcs1a = self.align1(Fc, Fs)
+        Fcs2a = self.align2(Fcs1a, Fs)
+        Fcs1b = self.align1(Fcs2a, Fs)
+        Fcs2b = self.align2(Fcs1b, Fs)
+        Fcs3 = self.align3(Fcs2b, Fs)
+
         FcsB = self.args.alpha * Fcs3 + (1 - self.args.alpha) * Fc
 
         Ics3 = self.decoder(FcsB)
@@ -255,7 +258,7 @@ class FuseUnit(nn.Module):
         fusion5 = self.sigmoid(self.fuse5x(self.pad5x(Fcat)))
         fusion = (fusion1 + fusion3 + fusion5) / 3
 
-        return torch.clamp(fusion, min=0, max=1.0)*F1 + torch.clamp(1 - fusion, min=0, max=1.0)*F2 
+        return torch.clamp(fusion, min=0, max=1.0)*F1 + 1* torch.clamp(1 - fusion, min=0, max=1.0)*F2 
         
 class PAMA(nn.Module):
     def __init__(self, channels):
